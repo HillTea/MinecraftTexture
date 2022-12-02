@@ -1,20 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccountController!{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <section class="container-fluid mt-5">
+        <nav class="col col-lg-12 d-flex gap-5 profile">
+            <div class="col col-lg-2 text-center">
+                <img src="{{ asset('images/characters/avatar.png') }}" class="rounded-circle mb-3" height="250"
+                     width="250"
+                     alt="{{ users.pseudo }}"/>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/alexi/Desktop/Mc textures site/MinecraftTexture/src/Controller/AccountController.php'|file_link(0) }}">src/Controller/AccountController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/alexi/Desktop/Mc textures site/MinecraftTexture/templates/account/index.html.twig'|file_link(0) }}">templates/account/index.html.twig</a></code></li>
-    </ul>
-</div>
+                <h5 class="mb-2"><strong>{{ users.pseudo }}</strong></h5>
+                {% if users.title == "Légendaire" %}
+                    <h4 class="text-muted"><span class="badge bg-danger">{{ users.title }} </span></h4>
+                {% else %}
+                    <h4 class="text-muted"><span class="badge bg-warning">{{ users.title }} </span></h4>
+                {% endif %}
+
+            </div>
+            <div class="col col-lg-8">
+                <img src="{{ asset('images/placeholders/1252x300.png') }}" alt="placeholder">
+                <!-- Tabs navs -->
+                <ul class="nav nav-tabs mb-3" id="myTab0" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab0" data-mdb-toggle="tab" data-mdb-target="#home0"
+                                type="button" role="tab" aria-controls="home" aria-selected="true">
+                            Ressources
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent0">
+                    <article class="tab-pane fade show active" id="home0" role="tabpanel" aria-labelledby="home-tab0">
+                        <article class="col col-12 d-flex flex-wrap">
+                            {% for product in products %}
+                                    <article class="col mb-3">
+                                            <img src="{{ asset('images/placeholders/200x150.png') }}" alt="{{ product.name }}">
+                                    </article>
+                                    <article class="col col-lg-10">
+                                        <h4>{{ product.name }}</h4>
+                                        <p class="small lh-1">Price: {{ product.price }}<br></br>Reviews: {{ product.review }}</p>
+
+                                    </article>
+                            {% endfor %}
+                            <div class="mx-auto">
+                                {{ knp_pagination_render(products) }}
+                            </div>
+                        </article>
+
+                    </article>
+                </div>
+            </div>
+        </nav>
+
+    </section>
+
+
 {% endblock %}

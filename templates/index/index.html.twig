@@ -2,47 +2,47 @@
 
 {% block title %}{{ title }}{% endblock %}
 
+{% block main %}
+{% include 'partials/_header-index.twig' %}
+{% endblock %}
+
 {% block body %}
 
-    <div class="background"></div>
-
-    <section class="container mt-5 h-100">
-        <div class="col-12 d-flex box">
-            <div class="col-lg-6 d-flex justify-content-around">
-                <div class="col-12 col-lg-2 text-center">
-                    <img src="https://minotar.net/avatar/Hilllwalk/100" alt="HillWalk" class="mt-5">
-                    <p class="small pt-2">HillWalk</p>
+    <section class="background">
+        <div class="container spacer">
+            <div class="col-12 d-flex box">
+                <div class="d-none d-lg-flex col col-lg-6 d-flex justify-content-around">
+                    <div class="col col-lg-2 text-center">
+                        <img src="https://minotar.net/avatar/Hilllwalk/100" alt="HillWalk" class="mt-5">
+                        <p class="small pt-2">HillWalk</p>
+                    </div>
+                    <div class="col-12 col-lg-2 text-center">
+                        <img src="https://minotar.net/avatar/PriestEsdras/100" alt="PriestEsdras" class="mt-5">
+                        <p class="small pt-2">PriestEsdras</p>
+                    </div>
+                    <div class="col-12 col-lg-2 text-center">
+                        <img src="https://minotar.net/avatar/roi_julian/100" alt="Roi_julian" class="mt-5">
+                        <p class="small pt-2">Roi Julian</p>
+                    </div>
                 </div>
-                <div class="col-12 col-lg-2 text-center">
-                    <img src="https://minotar.net/avatar/PriestEsdras/100" alt="PriestEsdras" class="mt-5">
-                    <p class="small pt-2">PriestEsdras</p>
-                </div>
-                <div class="col-12 col-lg-2 text-center">
-                    <img src="https://minotar.net/avatar/roi_julian/100" alt="Roi_julian" class="mt-5">
-                    <p class="small pt-2">Roi Julian</p>
-                </div>
-            </div>
-            <div class="col d-flex flex-row justify-content-center align-items-center border-start">
-                <div class="col-10 text-center pt-5 pb-5">
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
-                    <p class="small pt-5">Welcome to our new store! You can sell what you want if it's "Graphics" or
-                        "Plugins" You have to respect the <b><a href="#">RULES</a></b></p>
-                    <div class="col-12 d-grid">
-                        <a href="#test" class="btn btn-primary text-justify">
-                            Store
-                        </a>
+                <div class="col d-flex flex-row justify-content-center align-items-center border-start">
+                    <div class="col-10 text-center pt-5 pb-5">
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                        <p class="small pt-5">Welcome to our new store! You can sell what you want if it's "Graphics" or
+                            "Plugins" You have to respect the <b><a href="#">RULES</a></b></p>
+                        <div class="col-12 d-grid">
+                            <a href="{{ path('app_store') }}" class="btn btn-primary text-justify">
+                                <i class="fa-solid fa-store"></i> Store
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </section>
-
-{#    On est dans une nouvelle section#}
-
-    <div class="spacer">
-    </div>
 
 {% endblock %}

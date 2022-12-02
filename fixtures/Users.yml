@@ -1,0 +1,13 @@
+App\Entity\User:
+  user{0..100}:
+    email: '<email()>'
+    roles:
+      roles0: 'ROLES_USER'
+    password: "<numberBetween(1000, 100000000)>"
+    pseudo: "<lastname()>"
+    name: '<name()>'
+    lastname: '<lastname()>'
+    age: '<numberBetween(16, 70)>'
+    is_verified: '0'
+    path_image: '/images/characters/avatar.png'
+    title: '<username()>'

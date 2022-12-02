@@ -1,25 +1,34 @@
 
 //Import font
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@font-face {
+    font-family: 'Pixellari';
+    src: url("./fonts/pixel/Pixellari.ttf") format('truetype');
+    font-weight: auto;
+    font-style: normal;
+}
 
 
 //Body
-body {
-    background-color: lightgray;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 500;
+html, body {
     margin: 0;
     padding: 0;
 }
 
+body {
+    background-color: ghostwhite;
+    font-family: 'Pixellari', serif;
+    font-weight: 500;
+}
+
 .nav-link {
-    color: white !important;
+    font-size: 1.25rem;
 
     &:hover{
         color: gray !important;
     }
     &:active{
-        color: #2C3E50;
+        color: white !important;
     }
 }
 
@@ -29,20 +38,51 @@ li {
     padding-top: 30px;
 }
 
+h1 {
+    font-family: 'Pixellari', sans-serif;
 
+}
+
+header{
+    left: 18%;
+    z-index: 1001;
+}
+
+
+
+section{
+    height: 100vh;
+    width: auto;
+    z-index: 1000;
+}
+.card{
+
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
+}
 .background
 {
-    position: absolute;
-    z-index: -1;
+    position: relative;
+    z-index: 0;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    right: 0;
+    bottom: 0;
     background-position: center;
     background-image: url("http://127.0.0.1:8000/images/background/bg.jpg");
     background-size: cover;
     opacity: .9;
+    .spacer{
+        top: 40%;
+        position: relative;
+    }
 }
+
+
+.spacer-login{
+    margin-top: 150px;
+}
+
 
 .box{
     background-color: whitesmoke;
@@ -55,11 +95,33 @@ li {
     }
 }
 
-.text-box {
-    position: absolute;
-    right: 0;
+.character {
+    height: 350px;
+    width: auto;
 }
 
+.back {
+    a:hover {
+        color: darkgray !important;
+    }
+}
+
+.fixed-drop {
+    li {
+        padding-top: 0;
+    }
+    .dropdown-menu[data-bs-popper]{
+        top: 55% !important;
+    }
+}
+
+
+.profile{
+    img{
+        object-fit: contain;
+        object-position: center;
+    }
+}
 
 
 

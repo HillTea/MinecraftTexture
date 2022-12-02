@@ -1,0 +1,8 @@
+App\Entity\Products:
+  products{0..1000}:
+    name: '<name()>'
+    price: '<numberBetween(0, 1000)>'
+    description: 'Ceci est une description.'
+    review: '<numberBetween(0, 1000)>'
+    path_image: "http://127.0.0.1:8000/images/placeholders/200x150.png"
+    seller: '@user*'

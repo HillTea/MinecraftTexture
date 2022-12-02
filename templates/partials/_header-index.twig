@@ -1,0 +1,79 @@
+<header class="position-fixed d-none d-lg-flex container flex-wrap justify-content-center py-3 mb-4 border-bottom">
+    {% if app.user %}
+
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                <img class="pt-3 " src="{{ asset('images/logo/logo.png') }}" alt="logo" height="125" width=350>
+            </a>
+
+            <ul class="nav nav-pills align-items-center">
+                <li class="nav-item dropdown fixed-drop ms-5">
+                    <a class="nav-link dropdown-toggle text-success" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-user"></i> Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <li><a class="dropdown-item" href="{{ path('app_account', {pseudo: app.user.pseudo}) }}">Informations</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item ms-5">
+                    <a class="nav-link text-danger {{ app.request.get('_route') == 'app_logout' ? 'active' : '' }}" href="{{ path('app_logout') }}"><i class="fa-sharp fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+                </li>
+            </ul>
+
+        {% else %}
+
+                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                    <img class="pt-3 " src="{{ asset('images/logo/logo.png') }}" alt="logo" height="125" width=350>
+                </a>
+
+                <ul class="nav nav-pills align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="{{ path('app_login') }}"><i class="fa-solid fa-user"></i> Sign In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-success {{ app.request.get('_route') == 'app_register' ? 'active' : '' }}" href="{{ path('app_register') }}"><i class="fa-sharp fa-solid fa-arrow-right-from-bracket"></i> Register</a>
+                    </li>
+                </ul>
+
+    {% endif %}
+</header>
+
+<nav class="d-block d-xxl-none navbar navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Dark offcanvas</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex mt-3" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</nav>

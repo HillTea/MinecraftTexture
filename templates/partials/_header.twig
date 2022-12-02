@@ -1,41 +1,44 @@
 <header>
+    {% if app.user %}
 
-    <nav class="d-none d-xxl-block navbar navbar-expand-xxl navbar-light">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item me-5">
-                    <a class="nav-link {{ app.request.get('_route') == 'app_index' ? 'active' : '' }}" href="/">Accueil</a>
-                </li>
-                <li class="nav-item me-5">
-                    <a class="nav-link {{ app.request.get('_route') == 'app_logo' ? 'active' : '' }}" href="#">Logos</a>
-                </li>
+        <nav class="d-none d-lg-flex container flex-wrap justify-content-center py-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                <img class="pt-3 " src="{{ asset('images/logo/logo.png') }}" alt="logo" height="125" width=350>
+            </a>
 
-                <li class="nav-item me-5">
-                    <a class="nav-link {{ app.request.get('_route') == 'app_login' ? 'active' : '' }}" href="#">Textures</a>
-                </li>
-
-                <li class="nav-item me-5">
-                    <a class="nav-link {{ app.request.get('_route') == 'app_login' ? 'active' : '' }}" href="#">Backgrounds</a>
-                </li>
-                <img class="mx-auto pt-3" src="{{ asset('images/logo/logo.png') }}" alt="logo" height="125" width=350>
-                <li class="nav-item active ms-5">
-                    <a class="nav-link {{ app.request.get('_route') == 'app_login' ? 'active' : '' }}" href="/">Banners</a>
+            <ul class="nav nav-pills align-items-center">
+                <li class="nav-item dropdown fixed-drop ms-5">
+                    <a class="nav-link dropdown-toggle text-success" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-user"></i> Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <li><a class="dropdown-item" href="{{ path('app_account', {pseudo: app.user.pseudo}) }}">Informations</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item ms-5">
-                    <a class="nav-link {{ app.request.get('_route') == 'app_login' ? 'active' : '' }}" href="#">Ranks</a>
+                    <a class="nav-link text-danger {{ app.request.get('_route') == 'app_logout' ? 'active' : '' }}" href="{{ path('app_logout') }}"><i class="fa-sharp fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
                 </li>
-
-                <li class="nav-item ms-5">
-                    <a class="nav-link {{ app.request.get('_route') == 'app_login' ? 'active' : '' }}" href="#">Pubs</a>
-                </li>
-
-                <li class="nav-item ms-5">
-                    <a class="nav-link {{ app.request.get('_route') == 'app_login' ? 'active' : '' }}" href="#">Animations</a>
-                </li>
-
             </ul>
-        </div>
-    </nav>
+        </nav>
+
+        {% else %}
+
+            <nav class="d-none d-lg-flex container flex-wrap justify-content-center py-3 mb-4 border-bottom">
+                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                    <img class="pt-3 " src="{{ asset('images/logo/logo.png') }}" alt="logo" height="125" width=350>
+                </a>
+
+                <ul class="nav nav-pills align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="{{ path('app_login') }}"><i class="fa-solid fa-user"></i> Sign In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-success {{ app.request.get('_route') == 'app_register' ? 'active' : '' }}" href="{{ path('app_register') }}"><i class="fa-sharp fa-solid fa-arrow-right-from-bracket"></i> Register</a>
+                    </li>
+                </ul>
+            </nav>
+
+    {% endif %}
     <nav class="d-block d-xxl-none navbar navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
