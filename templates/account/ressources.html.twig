@@ -1,17 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductsController!{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-    <div id="ressourcesdisplay" class="d-none">
+    <div class="container">
+        {% for message in app.flashes('success') %}
+
+            <div class="alert alert-success">{{ message }}</div>
+
+        {% endfor %}
         {{ form_start(ressourcesForm)}}
         {{ form_row(ressourcesForm.name) }}
         {{ form_row(ressourcesForm.price) }}
         {{ form_row(ressourcesForm.description) }}
         {{ form_row(ressourcesForm.pathImage) }}
+        {{ form_row(ressourcesForm.pathLittleImage) }}
         <button type="submit" class="btn btn-success">
             Submit
         </button>
         {{ form_end(ressourcesForm) }}
     </div>
+
 {% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Products{% endblock %}
+
+{% block body %}
+    <main>
+        <article class="container">
+            <h1>Edit <span class="text-danger">[{{ product.name }}]</span></h1>
+
+            {{ include('store/_form.html.twig', {'button_label': 'Update'}) }}
+        </article>
+    </main>
+
+{% endblock %}

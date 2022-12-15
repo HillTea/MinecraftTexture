@@ -9,6 +9,7 @@
 import './styles/app.scss';
 
 import './controllers/cookies'
+import './controllers/tabs'
 
 // start the Stimulus application
 import './bootstrap';

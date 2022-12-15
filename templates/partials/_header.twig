@@ -1,18 +1,23 @@
 <header>
     {% if app.user %}
 
-        <nav class="d-none d-lg-flex container flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <nav class="d-none d-xl-flex container flex-wrap justify-content-center py-3 mb-4 border-bottom">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
                 <img class="pt-3 " src="{{ asset('images/logo/logo.png') }}" alt="logo" height="125" width=350>
             </a>
 
             <ul class="nav nav-pills align-items-center">
+                <li class="nav-item ms-5">
+                    <a class="nav-link {{ app.request.get('_route') == 'app_store' ? 'active text-white' : 'text-black' }}" href="{{ path('app_store') }}"><i class="fa-solid fa-store"></i> Store</a>
+                </li>
                 <li class="nav-item dropdown fixed-drop ms-5">
                     <a class="nav-link dropdown-toggle text-success" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa-solid fa-user"></i> Account
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark">
                         <li><a class="dropdown-item" href="{{ path('app_account', {pseudo: app.user.pseudo}) }}">Informations</a></li>
+                        <li><a class="dropdown-item" href="{{ path('app_account', {pseudo: app.user.pseudo}) }}#ressources">Ressources</a></li>
+                        <li><a class="dropdown-item" href="{{ path('app_account', {pseudo: app.user.pseudo}) }}#purchase">Purchases</a></li>
                     </ul>
                 </li>
                 <li class="nav-item ms-5">
@@ -23,12 +28,15 @@
 
         {% else %}
 
-            <nav class="d-none d-lg-flex container flex-wrap justify-content-center py-3 mb-4 border-bottom">
+            <nav class="d-none d-xl-flex container flex-wrap justify-content-center py-3 mb-4 border-bottom">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
                     <img class="pt-3 " src="{{ asset('images/logo/logo.png') }}" alt="logo" height="125" width=350>
                 </a>
 
                 <ul class="nav nav-pills align-items-center">
+                    <li class="nav-item ms-5">
+                        <a class="nav-link {{ app.request.get('_route') == 'app_store' ? 'active text-white' : 'text-black' }}" href="{{ path('app_store') }}"><i class="fa-solid fa-store"></i> Store</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" href="{{ path('app_login') }}"><i class="fa-solid fa-user"></i> Sign In</a>
                     </li>
@@ -39,7 +47,7 @@
             </nav>
 
     {% endif %}
-    <nav class="d-block d-xxl-none navbar navbar-dark bg-dark fixed-top">
+    <nav class="d-block d-xl-none navbar navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
                 <span class="navbar-toggler-icon"></span>
@@ -71,10 +79,6 @@
                             </ul>
                         </li>
                     </ul>
-                    <form class="d-flex mt-3" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-success" type="submit">Search</button>
-                    </form>
                 </div>
             </div>
         </div>

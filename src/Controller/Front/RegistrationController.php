@@ -33,6 +33,8 @@ class RegistrationController extends AbstractController
             // encode the plain password
 
             $this->addFlash('success', "You have successfully created an account! Enjoy it!");
+            $user->setPathBanner("/images/placeholders/1252x300.png");
+            $user->setPathImage("/images/placeholders/200x150.png");
             $user->setTitle('Member');
             $user->setPassword(
                 $userPasswordHasher->hashPassword(

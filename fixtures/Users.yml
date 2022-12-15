@@ -1,10 +1,10 @@
 App\Entity\User:
-  user{0..100}:
+  user{0..50}:
     email: '<email()>'
     roles:
       roles0: 'ROLES_USER'
     password: "<numberBetween(1000, 100000000)>"
-    pseudo: "<lastname()>"
+    pseudo: "<username()>"
     name: '<name()>'
     lastname: '<lastname()>'
     age: '<numberBetween(16, 70)>'

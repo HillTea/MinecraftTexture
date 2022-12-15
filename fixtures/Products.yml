@@ -3,6 +3,8 @@ App\Entity\Products:
     name: '<name()>'
     price: '<numberBetween(0, 1000)>'
     description: 'Ceci est une description.'
-    review: '<numberBetween(0, 1000)>'
-    path_image: "http://127.0.0.1:8000/images/placeholders/200x150.png"
+    review: '<numberBetween(0, 10)>'
+    path_image: "http://127.0.0.1:8000/images/placeholders/278x540.png"
+    created_at: "<date_create('tomorrow')>"
+    last_update: "<date_create('tomorrow')>"
     seller: '@user*'

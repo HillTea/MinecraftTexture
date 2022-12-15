@@ -1,6 +1,9 @@
 'use strict'
 import Swal from 'sweetalert2'
 
+
+
+
 function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);

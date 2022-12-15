@@ -3,57 +3,223 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
+    <div class="container">
+        {% for message in app.flashes('success') %}
 
-    <section class="container-fluid mt-5">
-        <nav class="col col-lg-12 d-flex gap-5 profile">
-            <div class="col col-lg-2 text-center">
-                <img src="{{ asset('images/characters/avatar.png') }}" class="rounded-circle mb-3" height="250"
-                     width="250"
-                     alt="{{ users.pseudo }}"/>
+            <div class="alert alert-success">{{ message }}</div>
 
-                <h5 class="mb-2"><strong>{{ users.pseudo }}</strong></h5>
-                {% if users.title == "Légendaire" %}
-                    <h4 class="text-muted"><span class="badge bg-danger">{{ users.title }} </span></h4>
-                {% else %}
-                    <h4 class="text-muted"><span class="badge bg-warning">{{ users.title }} </span></h4>
-                {% endif %}
+        {% endfor %}
 
-            </div>
-            <div class="col col-lg-8">
-                <img src="{{ asset('images/placeholders/1252x300.png') }}" alt="placeholder">
+        {% for message in app.flashes('error') %}
+
+            <div class="alert alert-danger text-center">{{ message }}</div>
+
+        {% endfor %}
+    </div>
+
+    <section class="container-fluid mt-6">
+        <nav class="col-12 d-flex flex-wrap gap-2 profile">
+            <article class="col-12 col-xl-2 text-center bg-white shadow-sm rounded ms-0 ms-xl-5 me-2 ms-xl-0 mt-4 h-25">
+                <aside>
+                    <img src="{{ user.pathImage }}" class="rounded mb-3 mt-3" height="150"
+                         width="225"
+                         alt="{{ user.pseudo }}"/>
+
+                    <h5 class="mb-2"><strong>{{ user.pseudo }}</strong></h5>
+                    {% if user.title == "Admin" %}
+                        <h4 class="text-muted"><span class="badge bg-danger">{{ user.title }} </span></h4>
+                    {% else %}
+                        <h4 class="text-muted"><span class="badge bg-warning">{{ user.title }} </span></h4>
+                    {% endif %}
+                    <h5 class="mt-5 text-danger">Age</h5>
+                    <hr class="mx-auto" style="width: 200px;">
+                    <p>{{ user.age }}</p>
+                </aside>
+
+            </article>
+            <article class="col-12 col-xl-8">
+
+               <aside class="col-12 d-flex justify-content-center">
+                   <img id="banner" src="{{ user.pathBanner }}" alt="placeholder" class="rounded">
+               </aside>
                 <!-- Tabs navs -->
-                <ul class="nav nav-tabs mb-3" id="myTab0" role="tablist">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab0" data-mdb-toggle="tab" data-mdb-target="#home0"
-                                type="button" role="tab" aria-controls="home" aria-selected="true">
-                            Ressources
-                        </button>
+                        <a class="nav-link active" id="informations-tab" data-bs-toggle="tab" href="#informations"
+                           data-bs-target="#informations-tab-pane" type="button" role="tab"
+                           aria-controls="informations-tab-pane" aria-selected="true">Informations
+                        </a>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="ressources-tab" data-bs-toggle="tab" href="#ressources"
+                           data-bs-target="#ressources-tab-pane" type="button" role="tab"
+                           aria-controls="ressources-tab-pane" aria-selected="false">Ressources
+                        </a>
+                    </li>
+                    {% if (app.user != null) %}
+                        {% if app.user.pseudo == user.pseudo %}
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="purchases-tab" data-bs-toggle="tab" href="#purchase"
+                                   data-bs-target="#contact-tab-pane" type="button" role="tab"
+                                   aria-controls="contact-tab-pane" aria-selected="false">Purchases
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
                 </ul>
-                <div class="tab-content" id="myTabContent0">
-                    <article class="tab-pane fade show active" id="home0" role="tabpanel" aria-labelledby="home-tab0">
-                        <article class="col col-12 d-flex flex-wrap">
-                            {% for product in products %}
-                                    <article class="col mb-3">
-                                            <img src="{{ asset('images/placeholders/200x150.png') }}" alt="{{ product.name }}">
-                                    </article>
-                                    <article class="col col-lg-10">
-                                        <h4>{{ product.name }}</h4>
-                                        <p class="small lh-1">Price: {{ product.price }}<br></br>Reviews: {{ product.review }}</p>
+                <aside class="tab-content" id="myTabContent">
 
+                    {# TAB INFORMATIONS #}
+                    <div class="tab-pane fade show active" id="informations-tab-pane" role="tabpanel"
+                         aria-labelledby="informations-tab" tabindex="0">
+                        {% if (app.user != null) %}
+                            {% if app.user.pseudo == user.pseudo %}
+                                <div class="col col-lg-12 text-end mt-3">
+                                    <button class="btn btn-primary" onclick="onMask()">
+                                        Modify
+                                    </button>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                        <div id="informations" class="d-none">
+                            {{ include('account/_form.html.twig', {'button_label': 'Update'}) }}
+                        </div>
+                        <div id="informations-text">
+                            <h5 class="text-danger">Description</h5>
+                            <hr style="width: 200px">
+                            {% if user.description == null %}
+                                <p>No description</p>
+                            {% else %}
+                                <p>{{ user.description|raw }}</p>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade" id="ressources-tab-pane" role="tabpanel" aria-labelledby="ressources-tab"
+                         tabindex="0">
+
+                        <div class="col col-lg-12 d-flex flex-wrap mt-3">
+
+                            {% if products.count == 0 %}
+                                <div class="col-12 text-end mb-3">
+                                    <a href="{{ path('app_account_ressources', {pseudo: user.pseudo}) }}"
+                                       class="btn btn-primary btn-sm text-end">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </a>
+                                </div>
+                                <div class="col-12 col-lg-6 d-flex flex-wrap justify-content-center align-items-center ressources">
+                                    <h5 class="col-12 text-center">Oh no, you don't have ressources!</h5>
+                                </div>
+                                <div id="ressources" class="col-12 col-lg-6 ressources">
+                                    <img src="{{ asset('images/divers/Villager.gif') }}" alt="why?" height="auto"
+                                         width="250">
+                                </div>
+                            {% else %}
+                                {% for product in products %}
+                                    <article class="col-12 mb-3 d-flex gap-2 bg-white shadow-sm rounded">
+                                        <div class="col text-center">
+                                            <img src="{{ product.pathLittleImage }}" alt="{{ product.name }}" height="75"
+                                                 width="75">
+                                        </div>
+                                        {#                                        Condition IF #}
+                                        {% if app.user == null %}
+                                            <div class="col-11 d-flex flex-column justify-content-center">
+                                                <a href="{{ path('app_store_details', {"name": product.name}) }}"
+                                                   class="fs-5 text-decoration-none">{{ product.name }}</a>
+                                                <p class="small lh-1">Price: {{ product.price }}
+                                                    <br>Reviews: {{ product.review }}</p>
+                                            </div>
+                                        {% elseif app.user.id == product.seller.id %}
+                                            <div class="col-9 d-flex flex-column justify-content-center">
+                                                <a href="{{ path('app_store_details', {"name": product.name}) }}"
+                                                   class="fs-5 text-decoration-none">{{ product.name }}</a>
+                                                <p class="small lh-1">Price: {{ product.price }}
+                                                    <br>Reviews: {{ product.review }}</p>
+
+                                            </div>
+                                            <div class="col-2 d-flex gap-2 justify-content-center align-items-center">
+                                                {{ include('store/_delete_form.html.twig') }}
+                                                <a href="{{ path('app_store_edit', {"id": product.id}) }}"
+                                                   class="btn btn-success  btn-sm">Edit</a>
+
+                                            </div>
+                                        {% else %}
+                                            <div class="col-11 d-flex flex-column justify-content-center">
+                                                <a href="{{ path('app_store_details', {"name": product.name}) }}"
+                                                   class="fs-5 text-decoration-none">{{ product.name }}</a>
+                                                <p class="small lh-1">Price: {{ product.price }}
+                                                    <br>Reviews: {{ product.review }}</p>
+                                            </div>
+                                        {% endif %}
+                                        {#                                        Fin IF #}
                                     </article>
-                            {% endfor %}
+                                {% endfor %}
+                            {% endif %}
                             <div class="mx-auto">
                                 {{ knp_pagination_render(products) }}
                             </div>
-                        </article>
+                        </div>
 
-                    </article>
-                </div>
-            </div>
+                    </div>
+                    <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="purchases-tab"
+                         tabindex="0">
+                        <div class="col col-lg-12 d-flex flex-wrap mt-5">
+                            {% if product.count == 0 %}
+                                <div class="col-12 d-flex flex-wrap justify-content-center align-items-center ressources">
+                                    <h5 class="col-12 text-center">Hey, you don't have any purchases.</h5>
+                                    <a href="{{ path('app_store') }}" class="btn btn-primary btn-sm">Store</a>
+                                </div>
+                            {% else %}
+                                {% for products in product %}
+                                    <article class="col-12 mb-3 d-flex gap-2 bg-white shadow-sm rounded">
+                                        <div class="col text-center">
+                                            <img src="{{ products.pathLittleImage }}" alt="{{ products.name }}" height="75"
+                                                 width="75">
+                                        </div>
+                                        {#                                        Condition IF #}
+                                        <div class="col-11 d-flex flex-column justify-content-center">
+                                            <a href="{{ path('app_store_details', {"name": products.name}) }}"
+                                               class="fs-5 text-decoration-none">{{ products.name }}</a>
+                                            <p class="small lh-1">Reviews: {{ products.review }}</p>
+                                        </div>
+                                        {#                                        Fin IF #}
+                                    </article>
+                                {% endfor %}
+                            {% endif %}
+                            <div class="mx-auto">
+                                {{ knp_pagination_render(products) }}
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </article>
         </nav>
 
     </section>
+
+    <script>
+        function onMask() {
+            const x = document.getElementById("informations");
+            const y = document.getElementById("informations-text")
+
+            x.classList.toggle('d-none');
+            y.classList.toggle('d-none');
+
+        }
+
+        $(document).ready(function () {
+            // Javascript to enable link to tab
+            var hash = location.hash.replace(/^#/, '');  // ^ means starting, meaning only match the first hash
+            if (hash) {
+                $('.nav-tabs a[href="#' + hash + '"]').tab('show');
+            }
+
+            // Change hash for page-reload
+            $('.nav-tabs a').on('shown.bs.tab', function (e) {
+                window.location.hash = e.target.hash;
+            })
+        })
+    </script>
 
 
 {% endblock %}

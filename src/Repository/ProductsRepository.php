@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Collection;
 use function Doctrine\ORM\QueryBuilder;
 
 /**
@@ -51,7 +52,6 @@ class ProductsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 
     public function getAllProducts(): array
     {

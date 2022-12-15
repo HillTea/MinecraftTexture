@@ -43,10 +43,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $pseudo = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $pathImage = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -56,9 +56,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'seller', targetEntity: Products::class)]
     private Collection $products;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $path_banner = null;
+
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $nationality = null;
+
+    #[ORM\ManyToMany(targetEntity: Products::class, mappedBy: 'buyer')]
+    private Collection $buyer;
+
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->buyer = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -196,7 +210,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->pathImage;
     }
 
-    public function setPathImage(string $pathImage): self
+    public function setPathImage(?string $pathImage): self
     {
         $this->pathImage = $pathImage;
 
@@ -244,4 +258,68 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getPathBanner(): ?string
+    {
+        return $this->path_banner;
+    }
+
+    public function setPathBanner(?string $path_banner): self
+    {
+        $this->path_banner = $path_banner;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getNationality(): ?string
+    {
+        return $this->nationality;
+    }
+
+    public function setNationality(?string $nationality): self
+    {
+        $this->nationality = $nationality;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Products>
+     */
+    public function getBuyer(): Collection
+    {
+        return $this->buyer;
+    }
+
+    public function addBuyer(Products $buyer): self
+    {
+        if (!$this->buyer->contains($buyer)) {
+            $this->buyer->add($buyer);
+            $buyer->addBuyer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBuyer(Products $buyer): self
+    {
+        if ($this->buyer->removeElement($buyer)) {
+            $buyer->removeBuyer($this);
+        }
+
+        return $this;
+    }
+
 }
