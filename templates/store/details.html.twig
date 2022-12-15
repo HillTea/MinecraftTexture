@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block body %}
+    {#    On est dans une nouvelle section #}
+    <section id="store">
+        <h1 class="text-center mt-5">Store</h1>
+        <div class="container-fluid d-flex col col-lg-12 gap-5 pt-5">
+            <div class="col col-lg-2">
+                <h6>Filter</h6>
+                <hr style="width: 85%">
+                <form>
+                    <label class="form-check">
+                        <input class="form-check-input" type="checkbox" value="">
+                        <span class="form-check-label">
+				    Logos
+				  </span>
+                    </label> <!-- form-check.// -->
+                    <label class="form-check">
+                        <input class="form-check-input" type="checkbox" value="">
+                        <span class="form-check-label">
+				    Textures
+				  </span>
+                    </label>  <!-- form-check.// -->
+                    <label class="form-check">
+                        <input class="form-check-input" type="checkbox" value="">
+                        <span class="form-check-label">
+				    Backgrounds
+				  </span>
+                    </label>  <!-- form-check.// -->
+                    <label class="form-check">
+                        <input class="form-check-input" type="checkbox" value="">
+                        <span class="form-check-label">
+				    Banners
+				  </span>
+                    </label>  <!-- form-check.// -->
+                    <label class="form-check">
+                        <input class="form-check-input" type="checkbox" value="">
+                        <span class="form-check-label">
+				    Ranks
+				  </span>
+                    </label>  <!-- form-check.// -->
+                    <label class="form-check">
+                        <input class="form-check-input" type="checkbox" value="">
+                        <span class="form-check-label">
+				    Pubs
+				  </span>
+                    </label>  <!-- form-check.// -->
+                    <label class="form-check">
+                        <input class="form-check-input" type="checkbox" value="">
+                        <span class="form-check-label">
+				    Animations
+				  </span>
+                    </label>  <!-- form-check.// -->
+                </form>
+            </div>
+            <div class="col col-lg-8 d-flex flex-wrap justify-content-start gap-0 gap-sm-2 gap-lg-5">
+                {% for product in products %}
+                    <div class="card" style="width: 17rem;">
+                        <img src="{{ asset('images/placeholders/1.png') }}" class="card-img-top" alt="..." height="200" width="150">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text text-truncate">{{ product.description }}</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="mx-auto">
+                    {{ knp_pagination_render(products) }}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

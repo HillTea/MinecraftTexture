@@ -1,0 +1,147 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        {% for message in app.flashes('success') %}
+
+            <div class="alert alert-success">{{ message }}</div>
+
+        {% endfor %}
+    </div>
+
+    <section class="container-fluid mt-5">
+        <nav class="col col-lg-12 d-flex gap-5 profile">
+            <div class="col col-lg-2 text-center bg-white shadow-sm rounded ms-5">
+                <img src="{{ asset('images/characters/avatar.png') }}" class="rounded-circle mb-3 mt-3" height="250"
+                     width="250"
+                     alt="{{ user.pseudo }}"/>
+
+                <h5 class="mb-2"><strong>{{ user.pseudo }}</strong></h5>
+                {% if user.title == "Légendaire" %}
+                    <h4 class="text-muted"><span class="badge bg-danger">{{ user.title }} </span></h4>
+                {% else %}
+                    <h4 class="text-muted"><span class="badge bg-warning">{{ user.title }} </span></h4>
+                {% endif %}
+                <h5 class="mt-5 text-danger">Age</h5>
+                <hr class="mx-auto" style="width: 200px;">
+                <p>{{ user.age }}</p>
+
+            </div>
+            <div class="col col-lg-8">
+
+                <img src="{{ asset('images/placeholders/1252x300.png') }}" alt="placeholder" class="rounded">
+                <!-- Tabs navs -->
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="informations-tab" data-bs-toggle="tab"
+                                data-bs-target="#informations-tab-pane" type="button" role="tab"
+                                aria-controls="informations-tab-pane" aria-selected="true">Informations
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="ressources-tab" data-bs-toggle="tab"
+                                data-bs-target="#ressources-tab-pane" type="button" role="tab"
+                                aria-controls="ressources-tab-pane" aria-selected="false">Ressources
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                data-bs-target="#contact-tab-pane" type="button" role="tab"
+                                aria-controls="contact-tab-pane" aria-selected="false">Contact
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+
+                                {# TAB INFORMATIONS #}
+                    <div class="tab-pane fade show active" id="informations-tab-pane" role="tabpanel"
+                         aria-labelledby="informations-tab" tabindex="0">
+                        {% if (app.user != null) %}
+                            {% if app.user.pseudo == user.pseudo %}
+                        <div class="col col-lg-12 text-end mt-3">
+                            <button class="btn btn-primary" onclick="onMask()">
+                                Modify
+                            </button>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        <div id="informations" class="d-none">
+                            {{ form_start(profileForm)}}
+                            {{ form_row(profileForm.description) }}
+                            {{ form_row(profileForm.age) }}
+                            {{ form_row(profileForm.pathImage) }}
+                            {{ form_row(profileForm.path_banner) }}
+                            <button type="submit" class="btn btn-success">
+                                Submit
+                            </button>
+                            {{ form_end(profileForm) }}
+                        </div>
+                        <div id="informations-text">
+                            <h5 class="text-danger">Description</h5>
+                            <hr style="width: 200px">
+                            {% if user.description == null %}
+                                <p>No description</p>
+                            {% else %}
+                                <p>{{ user.description }}</p>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade" id="ressources-tab-pane" role="tabpanel" aria-labelledby="ressources-tab"
+                         tabindex="0">
+
+                        <div class="col col-lg-12 d-flex flex-wrap mt-5">
+                            <div class="col-12 text-end">
+                                <a href="{{ path('app_account_ressources', {pseudo: user.pseudo}) }}" class="btn btn-primary text-end">
+                                    Add ressources
+                                </a>
+                            </div>
+                            {% if products.count == 0 %}
+                                <div class="col-12 col-lg-6 d-flex flex-wrap justify-content-center align-items-center ressources">
+                                    <h5 class="col-12 text-center">Oh no, you don't have ressources!</h5>
+                                </div>
+                                <div id="ressources" class="col-12 col-lg-6 ressources">
+                                    <img src="{{ asset('images/divers/Villager.gif') }}" alt="why?" height="auto" width="250">
+                                </div>
+                                {% else %}
+                                {% for product in products %}
+                                    <article class="col mb-3">
+                                        <img src="{{ asset('images/placeholders/200x150.png') }}" alt="{{ product.name }}">
+                                    </article>
+                                    <article class="col col-lg-10">
+                                        <h4>{{ product.name }}</h4>
+                                        <p class="small lh-1">Price: {{ product.price }}
+                                            <br></br>Reviews: {{ product.review }}</p>
+                                    </article>
+                                {% endfor %}
+                            {% endif %}
+                            <div class="mx-auto">
+                                {{ knp_pagination_render(products) }}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
+                         tabindex="0">...
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+    </section>
+
+    <script>
+        function onMask(){
+            const x = document.getElementById("informations");
+            const y = document.getElementById("informations-text")
+
+            x.classList.toggle('d-none');
+            y.classList.toggle('d-none');
+
+        }
+    </script>
+
+{% endblock %}

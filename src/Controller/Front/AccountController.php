@@ -1,52 +1,78 @@
 <?php
 
-namespace App\Controller\Front;
+namespace App\Controller;
 
-use App\Repository\ProductsRepository;
+use App\Entity\User;
+use App\Form\User1Type;
 use App\Repository\UserRepository;
-use Faker\Core\Uuid;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/account')]
 class AccountController extends AbstractController
 {
-
-
-    public function __construct(
-        private PaginatorInterface $paginator
-    )
+    #[Route('/', name: 'app_account_index', methods: ['GET'])]
+    public function index(UserRepository $userRepository): Response
     {
+        return $this->render('account/index.html.twig', [
+            'users' => $userRepository->findAll(),
+        ]);
     }
 
-    #[Route('/account/{uuid}', name: 'app_account')]
-    public function index(UserRepository $repository, string $pseudo, ProductsRepository $productsRepository, Request $request): Response
+    #[Route('/new', name: 'app_account_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, UserRepository $userRepository): Response
     {
+        $user = new User();
+        $form = $this->createForm(User1Type::class, $user);
+        $form->handleRequest($request);
 
-        $user = $repository->findOneBy(['pseudo' => $pseudo]);
-        $qb = $productsRepository->getProductsByUser($user);
-        $pagination = $this->paginator->paginate(
-            $qb,
-            $request->query->getInt('page', 1),
-            5
-        );
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userRepository->save($user, true);
 
-
-        if(!$user){
-            throw $this->createNotFoundException(
-                'No user got the name: ' . $pseudo . ' Please refer an newer name!'
-            );
+            return $this->redirectToRoute('app_account_index', [], Response::HTTP_SEE_OTHER);
         }
 
-
-        $product = $productsRepository->findBy(['seller' => $user->getId()]);
-
-        return $this->render('account/index.html.twig', [
-            'title' => 'Mc-Textures - Account',
-            'users' => $user,
-            'products' => $pagination
+        return $this->renderForm('account/new.html.twig', [
+            'user' => $user,
+            'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}', name: 'app_account_show', methods: ['GET'])]
+    public function show(User $user): Response
+    {
+        return $this->render('account/show.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'app_account_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, User $user, UserRepository $userRepository): Response
+    {
+        $form = $this->createForm(User1Type::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userRepository->save($user, true);
+
+            return $this->redirectToRoute('app_account_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('account/edit.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_account_delete', methods: ['POST'])]
+    public function delete(Request $request, User $user, UserRepository $userRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            $userRepository->remove($user, true);
+        }
+
+        return $this->redirectToRoute('app_account_index', [], Response::HTTP_SEE_OTHER);
     }
 }

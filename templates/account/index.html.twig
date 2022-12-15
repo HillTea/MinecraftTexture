@@ -1,59 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}User index{% endblock %}
 
 {% block body %}
+    <h1>User index</h1>
 
-    <section class="container-fluid mt-5">
-        <nav class="col col-lg-12 d-flex gap-5 profile">
-            <div class="col col-lg-2 text-center">
-                <img src="{{ asset('images/characters/avatar.png') }}" class="rounded-circle mb-3" height="250"
-                     width="250"
-                     alt="{{ users.pseudo }}"/>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Password</th>
+                <th>Name</th>
+                <th>Lastname</th>
+                <th>Age</th>
+                <th>IsVerified</th>
+                <th>Pseudo</th>
+                <th>PathImage</th>
+                <th>Title</th>
+                <th>Path_banner</th>
+                <th>Description</th>
+                <th>Nationality</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                <td>{{ user.password }}</td>
+                <td>{{ user.Name }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.age }}</td>
+                <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
+                <td>{{ user.pseudo }}</td>
+                <td>{{ user.pathImage }}</td>
+                <td>{{ user.title }}</td>
+                <td>{{ user.pathBanner }}</td>
+                <td>{{ user.description }}</td>
+                <td>{{ user.nationality }}</td>
+                <td>
+                    <a href="{{ path('app_account_show', {'id': user.id}) }}">show</a>
+                    <a href="{{ path('app_account_edit', {'id': user.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="15">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-                <h5 class="mb-2"><strong>{{ users.pseudo }}</strong></h5>
-                {% if users.title == "Légendaire" %}
-                    <h4 class="text-muted"><span class="badge bg-danger">{{ users.title }} </span></h4>
-                {% else %}
-                    <h4 class="text-muted"><span class="badge bg-warning">{{ users.title }} </span></h4>
-                {% endif %}
-
-            </div>
-            <div class="col col-lg-8">
-                <img src="{{ asset('images/placeholders/1252x300.png') }}" alt="placeholder">
-                <!-- Tabs navs -->
-                <ul class="nav nav-tabs mb-3" id="myTab0" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab0" data-mdb-toggle="tab" data-mdb-target="#home0"
-                                type="button" role="tab" aria-controls="home" aria-selected="true">
-                            Ressources
-                        </button>
-                    </li>
-                </ul>
-                <div class="tab-content" id="myTabContent0">
-                    <article class="tab-pane fade show active" id="home0" role="tabpanel" aria-labelledby="home-tab0">
-                        <article class="col col-12 d-flex flex-wrap">
-                            {% for product in products %}
-                                    <article class="col mb-3">
-                                            <img src="{{ asset('images/placeholders/200x150.png') }}" alt="{{ product.name }}">
-                                    </article>
-                                    <article class="col col-lg-10">
-                                        <h4>{{ product.name }}</h4>
-                                        <p class="small lh-1">Price: {{ product.price }}<br></br>Reviews: {{ product.review }}</p>
-
-                                    </article>
-                            {% endfor %}
-                            <div class="mx-auto">
-                                {{ knp_pagination_render(products) }}
-                            </div>
-                        </article>
-
-                    </article>
-                </div>
-            </div>
-        </nav>
-
-    </section>
-
-
+    <a href="{{ path('app_account_new') }}">Create new</a>
 {% endblock %}
