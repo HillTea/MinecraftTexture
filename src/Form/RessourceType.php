@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Image;
 
 class RessourceType extends AbstractType
@@ -56,13 +57,32 @@ class RessourceType extends AbstractType
                 'data_class' => null,
                 'constraints' => [
                     new Image([
-                        'maxSize' => '1M',
-                        'maxSizeMessage' => 'Sorry but you can\'t assign an image who is more then 1M.',
-                        'maxWidth' => 75,
-                        'maxHeight' => 75
+                        'maxSize' => '2M',
+                        'maxSizeMessage' => 'Sorry but you can\'t assign an image who is more then 2M.',
+                        'maxWidth' => 150,
+                        'maxHeight' => 150,
+                        'minWidth' => 75,
+                        'minHeight' => 75
                     ])
                 ]
             ])
+            ->add('ressource', FileType::class, [
+                'attr' => ['class' => 'form-control mb-3'],
+                'mapped' => false,
+                'label_attr' => ['class' => 'mt-3'],
+                'label' => 'Ressource',
+                'required' => true,
+                'data_class' => null,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '10M',
+                        'maxSizeMessage' => 'Sorry but you can\'t assign a file who is more then 10M.',
+                        'mimeTypes' => [ "application/rar", "application/zip", "application/x-rar-compressed", "application/octet-stream","application/x-zip-compressed"],
+                        'mimeTypesMessage' => "Please upload a valid rar/zip file!"
+                    ])
+                ]
+            ])
+
         ;
     }
 

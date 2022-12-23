@@ -3,14 +3,17 @@
 namespace App\Controller\Front;
 
 use App\Entity\Products;
+use App\Entity\Tags;
 use App\Entity\User;
 use App\Form\RessourceType;
 use App\Form\UserType;
 use App\Repository\ProductsRepository;
+use App\Repository\TagsRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -50,8 +53,11 @@ class AccountController extends AbstractController
 
             //Mise en place de l'avatar
             $uploadedFile = $form['pathImage']->getData();
+
             if($uploadedFile){
                 $destination = $this->getParameter('kernel.project_dir'). '/public/images/users/' . $user->getId() . "/avatar/";
+                $filesytem = new Filesystem();
+                $filesytem->remove($destination);
                 $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $newFilename = $originalFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
                 $uploadedFile->move(
@@ -66,6 +72,8 @@ class AccountController extends AbstractController
             $uploadedBannerFile = $form['path_banner']->getData();
             if($uploadedBannerFile){
                 $destinationBannerFile = $this->getParameter('kernel.project_dir'). '/public/images/users/' . $user->getId() . "/banner/";
+                $filesytem = new Filesystem();
+                $filesytem->remove($destinationBannerFile);
                 $originalBannerFilename = pathinfo($uploadedBannerFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $newBannerFilename = $originalBannerFilename.'-'.uniqid().'.'.$uploadedBannerFile->guessExtension();
                 $uploadedBannerFile->move(
@@ -98,12 +106,13 @@ class AccountController extends AbstractController
         return $this->redirectToRoute('app_account', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{pseudo}/ressources', name: 'app_account_ressources', methods: ['GET', 'POST'])]
-    public function addRessources(string $pseudo, Request $request, UserRepository $repository, EntityManagerInterface $entityManager): Response
+    #[Route('/{pseudo}/add/ressource', name: 'app_account_ressources', methods: ['GET', 'POST'])]
+    public function addRessources(string $pseudo, Request $request,TagsRepository $tagsRepository, UserRepository $repository, EntityManagerInterface $entityManager): Response
     {
 
         $user = $repository->findOneBy(['pseudo' => $pseudo]);
         $products = new Products();
+
         //Catégorie des ressources ajoutés par l'utilisateur sur son compte.
 
         $ressources = $this->createForm(RessourceType::class, $products);
@@ -111,6 +120,8 @@ class AccountController extends AbstractController
 
         if ($ressources->isSubmitted() && $ressources->isValid()) {
 
+            $tagId = $tagsRepository->findOneBy(['name' => $request->request->get('tags')]);
+            $tag = $tagsRepository->find($tagId);
             $this->addFlash('success', "Successfully added!");
             $products->setSeller($user);
             $products->setReview((float)null);
@@ -118,17 +129,41 @@ class AccountController extends AbstractController
             $products->setLastUpdate(new \DateTime());
 
 
-            //Image en avant du site.
-            $uploadedProductFile = $ressources['pathImage']->getData();
-            if($uploadedProductFile){
-                $destinationProductFile = $this->getParameter('kernel.project_dir'). '/public/images/users/' . $user->getId() . "/products/";
-                $originalProductFilename = pathinfo($uploadedProductFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $newProductFilename = $originalProductFilename.'-'.uniqid().'.'.$uploadedProductFile->guessExtension();
-                $uploadedProductFile->move(
-                    $destinationProductFile,
-                    $newProductFilename
+
+            if($ressources['pathImage']->getData() != null){
+
+                //Image en avant du site.
+                $uploadedProductFile = $ressources['pathImage']->getData();
+                if($uploadedProductFile){
+                    $destinationProductFile = $this->getParameter('kernel.project_dir'). '/public/images/users/' . $user->getId() . "/products/";
+                    $filesytem = new Filesystem();
+                    $filesytem->remove($destinationProductFile);
+                    $originalProductFilename = pathinfo($uploadedProductFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    $newProductFilename = $originalProductFilename.'-'.uniqid().'.'.$uploadedProductFile->guessExtension();
+                    $uploadedProductFile->move(
+                        $destinationProductFile,
+                        $newProductFilename
+                    );
+                    $products->setPathImage("/images/users/" . $user->getId() . "/products/" . $newProductFilename);
+                }
+
+            } else {
+                $products->setPathImage("/images/placeholders/278x540.png");
+            }
+
+            //Ressource du produit.
+            $uploadedRessourceFile = $ressources['ressource']->getData();
+            if($uploadedRessourceFile){
+                $destinationRessourceFile = $this->getParameter('kernel.project_dir'). '/public/ressources/users/' . $user->getId() . "/products/" . $ressources['name']->getData();
+                $filesytem = new Filesystem();
+                $filesytem->remove($destinationRessourceFile);
+                $originalRessourceFilename = pathinfo($uploadedRessourceFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newRessourceFilename = $originalRessourceFilename.'-'.uniqid().'.'.$uploadedRessourceFile->guessExtension();
+                $uploadedRessourceFile->move(
+                    $destinationRessourceFile,
+                    $newRessourceFilename
                 );
-                $products->setPathImage("/images/users/" . $user->getId() . "/products/" . $newProductFilename);
+                $products->setRessource("/ressources/users/" . $user->getId() . "/products/" . $ressources['name']->getData() . "/" . $newRessourceFilename);
             }
 
 
@@ -136,6 +171,8 @@ class AccountController extends AbstractController
             $uploadedProductImageDetails = $ressources['pathLittleImage']->getData();
             if($uploadedProductImageDetails){
                 $destinationProductImageDetails = $this->getParameter('kernel.project_dir'). '/public/images/users/' . $user->getId() . "/products/". $ressources['name']->getData() ."/details/images/";
+                $filesytem = new Filesystem();
+                $filesytem->remove($destinationProductImageDetails);
                 $originalProductImageDetails = pathinfo($uploadedProductImageDetails->getClientOriginalName(), PATHINFO_FILENAME);
                 $newProductImageDetails = $originalProductImageDetails.'-'.uniqid().'.'.$uploadedProductImageDetails->guessExtension();
                 $uploadedProductImageDetails->move(
@@ -145,9 +182,11 @@ class AccountController extends AbstractController
                 $products->setPathLittleImage("/images/users/" . $user->getId() . "/products/". $ressources['name']->getData() ."/details/images/" . $newProductImageDetails);
             }
 
+            $products->addTag($tag);
 
             $entityManager->persist($products);
             $entityManager->flush();
+
 
             return $this->redirectToRoute('app_account', ['pseudo'=> $user->getPseudo()], Response::HTTP_SEE_OTHER);
         }

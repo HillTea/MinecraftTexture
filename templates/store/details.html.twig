@@ -8,6 +8,18 @@
 
 {% block body %}
 
+    {% for message in app.flashes('success') %}
+
+        <div class="alert alert-success">{{ message }}</div>
+
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+
+        <div class="alert alert-danger text-center">{{ message }}</div>
+
+    {% endfor %}
+
     <main class="pt-5 d-flex flex-wrap justify-content-center gap-5">
         <article class="col-12 col-lg-6 bg-white p-4">
             {#            Favoriser le SEO de la page #}
@@ -19,10 +31,11 @@
                 </div>
                 <div class="col-4 text-end">
                     {% if users.contains(app.user) and app.user is not null %}
-
-                        <button class="btn btn-primary">
-                            Download
-                        </button>
+                        {% if app.user.id == product.seller.id %}
+                            <a class="btn btn-primary" href="{{ product.ressource }}">
+                                Download
+                            </a>
+                        {% endif %}
                     {% else %}
 
                         <button class="btn btn-primary">
@@ -32,33 +45,80 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="col-12 pt-5">
+            <div class="col-12 pt-5 break-lines">
                 {{ product.description|raw }}
             </div>
         </article>
         <aside class="col-12 col-lg-2 text-center rounded h-100">
 
-            {#            <div class="col-12 mt-3"> #}
-            {#                <div class="col-12"> #}
-            {#                    <img src="{{ product.seller.pathImage }}" class="rounded-circle mb-3 mt-3 avatar border" height="150" #}
-            {#                         width="150" #}
-            {#                         alt="{{ product.seller.pseudo }}"/> #}
-            {#                </div> #}
-            {#                <a href="{{ path('app_account', {'pseudo': product.seller.pseudo}) }}" class="fs-4 text-decoration-none text-dark">{{ product.seller.pseudo }}</a> #}
-            {#            </div> #}
-            {#            #}
             <div class="card mb-4">
                 <div class="card-body text-center">
                     <img src="{{ product.seller.pathImage }}" alt="{{ product.seller.pseudo }}"
-                         class="rounded-circle img-fluid" style="max-width: 75px; min-width: 75px; max-height: 75px; min-height: 75px;">
+                         class="rounded-circle img-fluid"
+                         style="max-width: 75px; min-width: 75px; max-height: 75px; min-height: 75px;">
                     <h5 class="my-3">{{ product.seller.pseudo }}</h5>
                     <div class="d-flex justify-content-center mb-2 mt-5">
-                        <a href="{{ path('app_account', {'pseudo' : product.seller.pseudo}) }}#ressources"
+                        <a href="{{ path('app_account', {'pseudo' : product.seller.pseudo}) }}?page=1#ressources"
                            class="btn btn-primary btn-sm">Ressources</a>
                     </div>
                 </div>
             </div>
         </aside>
+        <section class="container col-12 rounded">
+            <h1>Commentaires</h1>
+            <div class="col-12 col-lg-9">
+                {% if product.comments.count == 0 %}
+                    <div class="alert alert-danger text-center" role="alert">
+                        No comments!
+                    </div>
+                {% else %}
+
+                    {% for showComment in comments %}
+                        <article class="card p-3 mb-3">
+
+                            <div class="d-flex justify-content-between">
+
+                                <div class="user d-flex flex-row gap-2">
+
+                                    <img src="{{ showComment.user.pathImage }}" width="35" height="35"
+                                         class="user-img rounded-circle mr-2" alt="">
+                                    <span><small
+                                                class="font-weight-bold text-primary">{{ showComment.user.pseudo }}</small>
+                                        <small class="font-weight-bold">{{ showComment.comment|raw }}</small></span>
+
+                                </div>
+
+
+                                <small>{{ showComment.createdAt|date }}</small>
+
+                            </div>
+
+
+                            <div class="action d-flex justify-content-between mt-2 align-items-center">
+
+                                <div class="reply px-4 text-danger">
+                                    <a href="#"><i class="fa-solid fa-triangle-exclamation"></i> Report</a>
+
+                                </div>
+
+                            </div>
+
+
+                        </article>
+
+                    {% endfor %}
+                {% endif %}
+
+                {% if app.user %}
+                    {{ form_start(comment) }}
+                    {{ form_widget(comment) }}
+
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    {{ form_end(comment) }}
+
+                {% endif %}
+            </div>
+        </section>
     </main>
 
 {% endblock %}

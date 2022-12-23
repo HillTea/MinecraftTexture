@@ -5,101 +5,78 @@
 {% block body %}
     {#    On est dans une nouvelle section #}
     <section id="store">
-        <h1 class="text-center mt-6">Store</h1>
-        <div class="container-fluid d-flex flex-wrap col-12 gap-5 pt-5">
-            <div class="col-12 col-lg-2">
-                <h6>Filter</h6>
-                <hr style="width: 75%">
-                <form>
-                    <label class="form-check">
-                        <input class="form-check-input" type="checkbox" value="">
-                        <span class="form-check-label">
-                    Logos
-                  </span>
-                    </label> <!-- form-check.// -->
-                    <label class="form-check">
-                        <input class="form-check-input" type="checkbox" value="">
-                        <span class="form-check-label">
-                    Textures
-                  </span>
-                    </label>  <!-- form-check.// -->
-                    <label class="form-check">
-                        <input class="form-check-input" type="checkbox" value="">
-                        <span class="form-check-label">
-                    Backgrounds
-                  </span>
-                    </label>  <!-- form-check.// -->
-                    <label class="form-check">
-                        <input class="form-check-input" type="checkbox" value="">
-                        <span class="form-check-label">
-                    Banners
-                  </span>
-                    </label>  <!-- form-check.// -->
-                    <label class="form-check">
-                        <input class="form-check-input" type="checkbox" value="">
-                        <span class="form-check-label">
-                    Ranks
-                  </span>
-                    </label>  <!-- form-check.// -->
-                    <label class="form-check">
-                        <input class="form-check-input" type="checkbox" value="">
-                        <span class="form-check-label">
-                    Pubs
-                  </span>
-                    </label>  <!-- form-check.// -->
-                    <label class="form-check">
-                        <input class="form-check-input" type="checkbox" value="">
-                        <span class="form-check-label">
-                    Animations
-                  </span>
-                    </label>  <!-- form-check.// -->
-                </form>
+        <div class="container d-flex flex-wrap col-12 gap-5 pt-5">
+            <aside class="col-12 d-flex flex-wrap justify-content-between bg-gray rounded gap-5 p-5">
+                <div class="col-12 text-center">
+                    <h1>Category</h1>
+                </div>
+                {#                Premier bloc pour les catégories #}
+                <a href="{{ path('app_account_category', {"tag": "Graphics"}) }}" data-bs-toggle="tooltip" data-bs-title="Default tooltip" class="col-12 col-lg-2 bg-white text-center rounded p-5 categories" >
+                    <div>
+                        <h1 class="blue"><i class="fa-solid fa-paintbrush"></i></h1>
+                        <p class="blue">Graphics</p>
+                    </div>
+                </a>
+
+                <a href="{{ path('app_account_category', {"tag": "Models"}) }}" class="col-12 col-lg-2 bg-white categories text-center rounded p-5">
+                    <div>
+                        <h1 class="blue"><i class="fa-regular fa-square"></i></h1>
+                        <p class="blue">Models</p>
+                    </div>
+                </a>
+
+                <a href="{{ path('app_account_category', {"tag": "Plugins"}) }}" class="col-12 col-lg-2 bg-white categories text-center rounded p-5">
+                    <div >
+                        <h1 class="blue"><i class="fa-solid fa-puzzle-piece"></i></h1>
+                        <p class="blue">Plugins</p>
+                    </div>
+                </a>
+
+                <a href="{{ path('app_account_category', {"tag": "Builds"}) }}" class="col-12 col-lg-2 bg-white categories text-center rounded p-5">
+                    <div>
+                        <h1 class="blue"><i class="fa-solid fa-vihara"></i></h1>
+                        <p class="blue">Builds</p>
+                    </div>
+                </a>
+
+                <a href="{{ path('app_account_category', {"tag": "Others"}) }}" class="col-12 col-lg-2 bg-white categories text-center rounded p-5">
+                    <div>
+                        <h1 class="blue"><i class="fa-solid fa-toolbox"></i></h1>
+                        <p class="blue">Others</p>
+                    </div>
+                </a>
+            </aside>
+            <div>
+                {{ knp_pagination_render(products) }}
             </div>
-            <div class="col-12 col-lg-9 d-flex flex-wrap justify-content-between gap-5">
+            <div class="col-12 d-flex flex-wrap justify-content-start gap-5">
                 {% for product in products %}
-                <div class="example-2 cart">
-                    <div class="wrapper" style="background: url({{ product.pathImage}}) center / cover no-repeat; border-radius: 5px;">
-                        <div class="header">
-                            <div class="date">
-                                <span class="day">{{ product.LastUpdate|date(("d/m/Y")) }}</span>
+                    <div class="example-2 cart">
+                        <div class="wrapper"
+                             style="background: url({{ product.pathImage }}) center / cover no-repeat; border-radius: 5px;">
+                            <div class="header">
+                                <div class="date">
+                                    <span class="day">{{ product.LastUpdate|date(("d/m/Y")) }}</span>
+                                </div>
+                                <ul class="menu-content">
+                                    <li><a href="#" class="fa fa-heart-o text-danger"><span>{{ product.review }}</span></a>
+                                    </li>
+                                </ul>
                             </div>
-                            <ul class="menu-content">
-                                <li>
-                                    <a href="#" class="fa fa-bookmark-o"></a>
-                                </li>
-                                <li><a href="#" class="fa fa-heart-o"><span>{{ product.review }}</span></a></li>
-                            </ul>
-                        </div>
-                        <div class="data">
-                            <div class="content">
-                                <h5 class="title"><a href="#">{{ product.name }}</a></h5>
-                                <a href="{{ path('app_store_details', {"name": product.name}) }}"
-                                   class="text-center btn btn-success mt-2">View</a>
+                            <div class="data">
+                                <div class="content">
+                                    <h5 class="title"><a href="#">{{ product.name }}</a></h5>
+                                    <a href="{{ path('app_store_details', {"name": product.name}) }}"
+                                       class="text-center btn btn-success mt-2">View</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            {#                    <div class="card mb-3" style="width: 550px;"> #}
-            {#                        <div class="row g-0"> #}
-            {#                            <div class="col-md-4"> #}
-            {#                                <img src="{{ asset('images/placeholders/1.png') }}" class="card-img-top rounded-start" #}
-            {#                                     alt="..." height="200" width="150"> #}
-            {#                            </div> #}
-            {#                            <div class="col-md-8"> #}
-            {#                                <div class="card-body"> #}
-            {#                                    <h5 class="card-title">{{ product.name }}</h5> #}
-            {#                                    <p class="card-text">{{ product.description|u.truncate(100,'...')|raw }}</p> #}
-            {#                                    <a href="{{ path('app_store_details', {"name": product.name}) }}" #}
-            {#                                       class="btn btn-primary">View</a> #}
-            {#                                </div> #}
-            {#                            </div> #}
-            {#                        </div> #}
-            {#                    </div> #}
-            {% endfor %}
-            <div class="mx-auto">
+                {% endfor %}
+            </div>
+            <div>
                 {{ knp_pagination_render(products) }}
             </div>
-        </div>
         </div>
     </section>
 {% endblock %}
