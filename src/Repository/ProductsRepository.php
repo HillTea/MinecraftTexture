@@ -61,6 +61,15 @@ class ProductsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getSearchedProduct($keyword): array {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC')
+            ->where('p.name LIKE :key')
+            ->setParameter('key', '%' . $keyword . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Products[] Returns an array of Products objects
 //     */

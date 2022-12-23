@@ -11,6 +11,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -50,8 +51,11 @@ class AccountController extends AbstractController
 
             //Mise en place de l'avatar
             $uploadedFile = $form['pathImage']->getData();
+
             if($uploadedFile){
                 $destination = $this->getParameter('kernel.project_dir'). '/public/images/users/' . $user->getId() . "/avatar/";
+                $filesytem = new Filesystem();
+                $filesytem->remove($destination);
                 $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $newFilename = $originalFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
                 $uploadedFile->move(
@@ -66,6 +70,8 @@ class AccountController extends AbstractController
             $uploadedBannerFile = $form['path_banner']->getData();
             if($uploadedBannerFile){
                 $destinationBannerFile = $this->getParameter('kernel.project_dir'). '/public/images/users/' . $user->getId() . "/banner/";
+                $filesytem = new Filesystem();
+                $filesytem->remove($destinationBannerFile);
                 $originalBannerFilename = pathinfo($uploadedBannerFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $newBannerFilename = $originalBannerFilename.'-'.uniqid().'.'.$uploadedBannerFile->guessExtension();
                 $uploadedBannerFile->move(
@@ -122,6 +128,8 @@ class AccountController extends AbstractController
             $uploadedProductFile = $ressources['pathImage']->getData();
             if($uploadedProductFile){
                 $destinationProductFile = $this->getParameter('kernel.project_dir'). '/public/images/users/' . $user->getId() . "/products/";
+                $filesytem = new Filesystem();
+                $filesytem->remove($destinationProductFile);
                 $originalProductFilename = pathinfo($uploadedProductFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $newProductFilename = $originalProductFilename.'-'.uniqid().'.'.$uploadedProductFile->guessExtension();
                 $uploadedProductFile->move(
@@ -136,6 +144,8 @@ class AccountController extends AbstractController
             $uploadedProductImageDetails = $ressources['pathLittleImage']->getData();
             if($uploadedProductImageDetails){
                 $destinationProductImageDetails = $this->getParameter('kernel.project_dir'). '/public/images/users/' . $user->getId() . "/products/". $ressources['name']->getData() ."/details/images/";
+                $filesytem = new Filesystem();
+                $filesytem->remove($destinationProductImageDetails);
                 $originalProductImageDetails = pathinfo($uploadedProductImageDetails->getClientOriginalName(), PATHINFO_FILENAME);
                 $newProductImageDetails = $originalProductImageDetails.'-'.uniqid().'.'.$uploadedProductImageDetails->guessExtension();
                 $uploadedProductImageDetails->move(

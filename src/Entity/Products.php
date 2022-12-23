@@ -47,10 +47,15 @@ class Products
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $lastUpdate = null;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Comments::class)]
+    private Collection $comments;
+
+
 
     public function __construct()
     {
         $this->buyer = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -186,6 +191,36 @@ class Products
     public function setLastUpdate(\DateTimeInterface $lastUpdate): self
     {
         $this->lastUpdate = $lastUpdate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comments>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comments $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comments $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getProduct() === $this) {
+                $comment->setProduct(null);
+            }
+        }
 
         return $this;
     }

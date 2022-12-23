@@ -8,8 +8,23 @@ $san-juan: #2d4e68;
 $bermuda: #77d7b9;
 $white: #fff;
 $black: #000;
+$blue-categories: #2E86C1;
+$gray: #E5E7E9;
 $open-sans: 'Open Sans',
 sans-serif;
+
+//Simple couleur ou background
+.bg-gray{
+  background-color: $gray;
+}
+
+.categories{
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+  &:hover{
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  }
+}
+
 // clear-fix mixin
 @mixin cf {
   &::before,
@@ -163,7 +178,7 @@ section {
 
 .profile {
   img {
-    object-fit: contain;
+    object-fit: cover;
     object-position: center;
   }
 }
@@ -195,7 +210,7 @@ section {
 
 @media screen and (min-width: 1536px){
   .cart{
-    width: 27%;
+    width: 22%;
   }
 }
 
@@ -208,12 +223,12 @@ section {
 
 @media screen and (min-width: 992px) and (max-width: 1535px){
   .cart{
-    width: 300px;
+    width: 256px;
   }
 }
 
 
-//test
+//Cart
 a {
   text-decoration: none;
 }
@@ -371,4 +386,12 @@ h1 {
   height: 400px;
   width: 28%;
 }
+.break-lines{
+  line-break: anywhere;
+}
 
+.blue{
+  color: $blue-categories;
+}
+
+//Comments
