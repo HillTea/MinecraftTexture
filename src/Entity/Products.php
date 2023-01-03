@@ -47,10 +47,22 @@ class Products
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $lastUpdate = null;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Comments::class)]
+    private Collection $comments;
+
+    #[ORM\ManyToMany(targetEntity: Tags::class, mappedBy: 'product')]
+    private Collection $tags;
+
+    #[ORM\Column(length: 255)]
+    private ?string $ressource = null;
+
+
 
     public function __construct()
     {
         $this->buyer = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -186,6 +198,75 @@ class Products
     public function setLastUpdate(\DateTimeInterface $lastUpdate): self
     {
         $this->lastUpdate = $lastUpdate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comments>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comments $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comments $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getProduct() === $this) {
+                $comment->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tags>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tags $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+            $tag->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tags $tag): self
+    {
+        if ($this->tags->removeElement($tag)) {
+            $tag->removeProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function getRessource(): ?string
+    {
+        return $this->ressource;
+    }
+
+    public function setRessource(string $ressource): self
+    {
+        $this->ressource = $ressource;
 
         return $this;
     }

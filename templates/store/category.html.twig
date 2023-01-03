@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+    <section id="store">
+        <div class="container d-flex flex-wrap col-12 gap-5 pt-5">
+            <div class="col-12 d-flex flex-wrap justify-content-start gap-5">
+                {% if products.count == 0 %}
+
+                    <div class="col-12 text-center">
+                        <h1>Oh no ... We don't found somes products!</h1>
+                        <a href="{{ path('app_store') }}" class="btn btn-primary">Go back</a>
+                    </div>
+
+                {% else %}
+                    <article class="container pt-5 back">
+                        <a class="text-decoration-none text-dark fs-3" href="{{ path('app_store') }}"><i
+                                    class="fa-sharp fa-solid fa-arrow-left"></i> Back</a>
+                    </article>
+                    <div>
+                        {{ knp_pagination_render(products) }}
+                    </div>
+                    {% for product in products %}
+                        <div class="example-2 cart">
+                            <div class="wrapper"
+                                 style="background: url({{ product.pathImage }}) center / cover no-repeat; border-radius: 5px;">
+                                <div class="header">
+                                    <div class="date">
+                                        <span class="day">{{ product.LastUpdate|date(("d/m/Y")) }}</span>
+                                    </div>
+                                    <ul class="menu-content">
+                                        <li><a href="#"
+                                               class="fa fa-heart-o text-danger"><span>{{ product.review }}</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="data">
+                                    <div class="content">
+                                        <h5 class="title"><a href="#">{{ product.name }}</a></h5>
+                                        <a href="{{ path('app_store_details', {"name": product.name}) }}"
+                                           class="text-center btn btn-success mt-2">View</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div>
+                {{ knp_pagination_render(products) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
