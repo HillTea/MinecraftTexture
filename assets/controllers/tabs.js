@@ -6,7 +6,7 @@ formsConfirm.forEach(form => {
     form.addEventListener('submit', validateDelete);
 })
 
-function validateDelete(event){
+function validateDelete(event) {
     event.preventDefault();
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -47,16 +47,29 @@ function validateDelete(event){
 }
 
 
-
 $(document).ready(function () {
-    // Javascript to enable link to tab
-    var hash = location.hash.replace(/^#/, '');  // ^ means starting, meaning only match the first hash
+
+    var hash = location.hash.replace(/^#/, '');
     if (hash) {
         $('.nav-tabs a[href="#' + hash + '"]').tab('show');
     }
 
-    // Change hash for page-reload
+
     $('.nav-tabs a').on('shown.bs.tab', function (e) {
         window.location.hash = e.target.hash;
     })
 })
+
+//Permet au bouton "modify" qui se situe dans les informations utilisateur de faire en sorte d'avoir l'obligation de faire un clique droit pour y accéder.
+const modify = document.getElementById('modify');
+
+modify.addEventListener('click', () => {
+    const x = document.getElementById("informations");
+    const y = document.getElementById("informations-text");
+
+    x.classList.toggle('d-none');
+    y.classList.toggle('d-none');
+})
+
+
+

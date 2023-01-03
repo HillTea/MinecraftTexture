@@ -28,13 +28,13 @@
                 <div class="col d-flex flex-row justify-content-center align-items-center border-start">
                     <div class="col-10 text-center pt-5 pb-5">
                         <form class="d-flex" role="search" action="{{ path('app_store_search') }}" method="get">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="{% trans %}Index.to.placeholder.search{% endtrans %}" aria-label="Search" name="search">
+                            <button class="btn btn-outline-success" type="submit">{% trans %}Index.to.search{% endtrans %}</button>
                         </form>
                         <p class="small pt-5">{% trans %}Index.to.index{% endtrans %}<b><a href="#">{% trans %}Index.to.rules{% endtrans %}</a></b></p>
                         <div class="col-12 d-grid">
                             <a href="{{ path('app_store') }}" class="btn btn-primary text-justify">
-                                <i class="fa-solid fa-store"></i> Store
+                                <i class="fa-solid fa-store"></i> {% trans %}Index.to.store{% endtrans %}
                             </a>
                         </div>
                     </div>

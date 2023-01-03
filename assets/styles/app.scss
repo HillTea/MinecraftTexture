@@ -17,6 +17,8 @@ sans-serif;
 .bg-gray{
   background-color: $gray;
 }
+//Animated background
+
 
 .categories{
   box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
@@ -48,7 +50,9 @@ sans-serif;
   font-style: normal;
 }
 
-
+.swal2-confirm {
+  margin-left: 10px;
+}
 //Body
 html, body {
   margin: 0;

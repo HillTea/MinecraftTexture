@@ -75,7 +75,7 @@
                         {% if (app.user != null) %}
                             {% if app.user.pseudo == user.pseudo %}
                                 <div class="col col-lg-12 text-end mt-3">
-                                    <button class="btn btn-primary" onclick="onMask()">
+                                    <button class="btn btn-primary" id="modify">
                                         Modify
                                     </button>
                                 </div>
@@ -84,7 +84,7 @@
                         <div id="informations" class="d-none">
                             {{ include('account/_form.html.twig', {'button_label': 'Update'}) }}
                         </div>
-                        <div id="informations-text">
+                        <div id="informations-text mt-3">
                             <h5 class="text-danger">Description</h5>
                             <hr style="width: 200px">
                             {% if user.description == null %}
@@ -207,16 +207,5 @@
 
     </section>
 
-
-<script>
-    function onMask() {
-        const x = document.getElementById("informations");
-        const y = document.getElementById("informations-text")
-
-        x.classList.toggle('d-none');
-        y.classList.toggle('d-none');
-
-    }
-</script>
 
 {% endblock %}

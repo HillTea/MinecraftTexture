@@ -37,7 +37,7 @@ class StoreController extends AbstractController
         $products = $this->paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
-            16
+            12
         );
 
         return $this->render('store/index.html.twig', [
