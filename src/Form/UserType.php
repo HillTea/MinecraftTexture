@@ -23,7 +23,7 @@ class UserType extends AbstractType
                 'required' => false,
                 'mapped' => false
             ])
-            ->add('lastname', TextType::class, [
+            ->add('surname', TextType::class, [
                 'attr' => ['class' => 'form-control mb-3'],
                 'required' => false,
                 'mapped' => false

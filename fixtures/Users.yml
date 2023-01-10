@@ -6,7 +6,8 @@ App\Entity\User:
     password: "<numberBetween(1000, 100000000)>"
     pseudo: "<username()>"
     name: '<name()>'
-    lastname: '<lastname()>'
+    surname: '<surname()>'
+#    Sinon mettre lastname()
     age: '<numberBetween(16, 70)>'
     is_verified: '0'
     path_image: '/images/characters/avatar.png'

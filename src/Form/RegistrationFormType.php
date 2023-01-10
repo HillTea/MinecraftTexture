@@ -24,8 +24,9 @@ class RegistrationFormType extends AbstractType
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('lastname', TextType::class, [
+            ->add('surname', TextType::class, [
                 'required' => true,
+                'label' => "Username",
                 'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new NotBlank([
@@ -41,6 +42,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('name', TextType::class, [
                 'required' => true,
+                'label' => "Name",
                 'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new NotBlank([
