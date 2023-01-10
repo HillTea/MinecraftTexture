@@ -8,18 +8,19 @@
 
 {% block body %}
 
-    {% for message in app.flashes('success') %}
+    <article class="container">
+        {% for message in app.flashes('success') %}
 
-        <div class="alert alert-success">{{ message }}</div>
+            <div class="alert alert-success">{{ message }}</div>
 
-    {% endfor %}
+        {% endfor %}
 
-    {% for message in app.flashes('error') %}
+        {% for message in app.flashes('error') %}
 
-        <div class="alert alert-danger text-center">{{ message }}</div>
+            <div class="alert alert-danger text-center">{{ message }}</div>
 
-    {% endfor %}
-
+        {% endfor %}
+    </article>
     <main class="pt-5 d-flex flex-wrap justify-content-center gap-5">
         <article class="col-12 col-lg-6 bg-white p-4">
             {#            Favoriser le SEO de la page #}
@@ -31,11 +32,13 @@
                 </div>
                 <div class="col-4 text-end">
                     {% if users.contains(app.user) and app.user is not null %}
-                        {% if app.user.id == product.seller.id %}
-                            <a class="btn btn-primary" href="{{ product.ressource }}">
-                                Download
-                            </a>
-                        {% endif %}
+                        {% for buyer in product.buyer %}
+                            {% if buyer == app.user %}
+                                <a class="btn btn-primary" href="{{ product.ressource }}">
+                                    Download
+                                </a>
+                            {% endif %}
+                        {% endfor %}
                     {% else %}
 
                         <button class="btn btn-primary">
@@ -65,7 +68,7 @@
             </div>
         </aside>
         <section class="container col-12 rounded">
-            <h1>Commentaires</h1>
+            <h1>Comments</h1>
             <div class="col-12 col-lg-9">
                 {% if product.comments.count == 0 %}
                     <div class="alert alert-danger text-center" role="alert">

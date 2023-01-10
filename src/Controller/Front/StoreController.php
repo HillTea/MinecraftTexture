@@ -119,27 +119,38 @@ class StoreController extends AbstractController
     #[Route('/{name}', name: 'app_store_details', methods: ['GET', 'POST'])]
     public function details(ProductsRepository $productsRepository, CommentsRepository $commentsRepository, UserRepository $userRepository, Products $products, string $name, Request $request): Response
     {
-
+            //On prend le produit qui est détaillé.
             $product = $productsRepository->findOneBy(['name' => $name]);
+            //On regarde les commentaires qui sont sur le produit demandé.
             $seeComments = $commentsRepository->getCommentsByProduct($product->getId());
+            //On prend l'acheteur
             $users = $products->getBuyer();
 
+            //On créer un nouveau commentaire
             $comments = new Comments();
 
+            //Partie formulaire
             $form = $this->createForm(CommentType::class, $comments);
             $form->handleRequest($request);
 
+            //Si le formulaire est envoyé et qu'il est valide on fait ...
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //On identifie la personne qui vient de faire un commentaire
             $userComment = $userRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
 
+            //Ajout des informations par défaut du commentaire.
             $comments->setCreatedAt(new \DateTime());
             $comments->setProduct($product);
             $comments->setUser($userComment);
 
+            //On sauvegarde le tout.
             $commentsRepository->save($comments, true);
 
+            //Message succès comme quoi le commentaire a bien été envoyé.
             $this->addFlash('success', "Your comment is sent! An administrator must validate your comment!");
 
+            //On retourne le tout.
             return $this->redirectToRoute('app_store_details', ['name' => $products->getName()], Response::HTTP_SEE_OTHER);
 
         }
