@@ -121,6 +121,7 @@ class StoreController extends AbstractController
     {
             //On prend le produit qui est détaillé.
             $product = $productsRepository->findOneBy(['name' => $name]);
+
             //On regarde les commentaires qui sont sur le produit demandé.
             $seeComments = $commentsRepository->getCommentsByProduct($product->getId());
             //On prend l'acheteur

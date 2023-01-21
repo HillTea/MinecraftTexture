@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block main %}
+{% endblock %}
+
+{% block body %}
+
+    {% include 'partials/admin/_index.html.twig' %}
+
+
+    <div class="space-left container table-responsive">
+        <h2>Utilisateurs</h2>
+        <table class="table table-striped table-sm">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Email</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Titre</th>
+                <th scope="col">Âge</th>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Avatar</th>
+                <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.surname }}</td>
+                    <td>{{ user.title }}</td>
+                    <td>{{ user.age }}</td>
+                    <td>{{ user.pseudo }}</td>
+                    <td><a href="{{ user.pathImage }}"><img src="{{ user.pathImage }}" height="75" width="75"></a></td>
+                    <td>{{ user.description }}</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        <div class="mx-auto">
+            {{ knp_pagination_render(users) }}
+        </div>
+    </div>
+
+
+
+
+    {% block footer %}
+    {% endblock %}
+
+{% endblock %}
+
+

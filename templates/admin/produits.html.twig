@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block main %}
+{% endblock %}
+
+{% block body %}
+
+    {% include 'partials/admin/_index.html.twig' %}
+
+
+    <div class="space-left container table-responsive">
+        <h2>Produits</h2>
+        <table class="table table-striped table-sm">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Seller-Id</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Likes</th>
+                <th scope="col">Image</th>
+                <th scope="col">Création</th>
+                <th scope="col">Ressource</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.seller.id|raw }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.review }}</td>
+                    <td><a href="{{ product.pathImage }}"><img src="{{ product.pathImage }}" height="auto" width="75"></a></td>
+                    <td>{{ product.createdAt|date('d/m/y') }}</td>
+                    <td><a href="{{ product.ressource }}">Télécharger</a></td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        <div class="mx-auto">
+            {{ knp_pagination_render(products) }}
+        </div>
+    </div>
+
+
+
+
+    {% block footer %}
+    {% endblock %}
+
+{% endblock %}
+
+

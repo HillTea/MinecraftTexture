@@ -17,7 +17,7 @@
         {% endfor %}
     </div>
 
-    <section class="container-fluid mt-6">
+    <section class="container-fluid mt-5">
         <nav class="col-12 d-flex flex-wrap gap-2 profile">
             <article class="col-12 col-xl-2 text-center bg-white shadow-sm rounded ms-0 ms-xl-5 me-2 ms-xl-0 h-25">
                 <aside>
@@ -28,6 +28,8 @@
                     <h5 class="mb-2"><strong>{{ user.pseudo }}</strong></h5>
                     {% if user.title == "Admin" %}
                         <h4 class="text-muted"><span class="badge bg-danger">{{ user.title }} </span></h4>
+                    {% elseif user.title != "Admin" and user.products.count >= 1 %}
+                        <h4 class="text-muted"><span class="badge bg-success">Seller </span></h4>
                     {% else %}
                         <h4 class="text-muted"><span class="badge bg-warning">{{ user.title }} </span></h4>
                     {% endif %}
@@ -84,7 +86,7 @@
                         <div id="informations" class="d-none">
                             {{ include('account/_form.html.twig', {'button_label': 'Update'}) }}
                         </div>
-                        <div id="informations-text mt-3">
+                        <div id="informations-text" class="mt-3">
                             <h5 class="text-danger">Description</h5>
                             <hr style="width: 200px">
                             {% if user.description == null %}
@@ -204,8 +206,8 @@
                 </aside>
             </article>
         </nav>
-
     </section>
+    {% block footer %}
 
-
+    {% endblock %}
 {% endblock %}

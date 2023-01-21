@@ -27,7 +27,7 @@ sans-serif;
   }
 }
 
-// clear-fix mixin
+
 @mixin cf {
   &::before,
   &::after {
@@ -53,6 +53,7 @@ sans-serif;
 .swal2-confirm {
   margin-left: 10px;
 }
+
 //Body
 html, body {
   margin: 0;
@@ -398,6 +399,223 @@ h1 {
   color: $blue-categories;
 }
 
-//404
+#store{
+  height: auto;
+}
+
+//buton like
+.block {
+  width: 320px;
+  height: 160px;
+  background: white;
+  border-radius: 9px;
+  box-shadow: 0 10px 25px rgba(124, 130, 141, 0.2);
+  transition: all 0.25s ease-out;
+  user-select: none;
+}
+@media (max-width: 575.9px) {
+  .block {
+    width: 260px;
+  }
+}
+.block .heart-icon {
+  user-select: none;
+  position: absolute;
+  left: 71%;
+  top: 56%;
+  cursor: pointer;
+  transform: translate(-20%, -50%);
+  fill: transparent;
+  transition: transform 0.25s ease-out;
+  transform-origin: 50% 50%;
+}
+.block .heart-icon .fill-color-shape {
+  fill: transparent;
+}
+.block .heart-icon.isLiked {
+  filter: drop-shadow(0 3px 5px #c44133);
+}
+.block .heart-icon.isLiked .fill-color-shape {
+  transition: fill 0.5s linear;
+  fill: #e74c3c;
+}
+.block .heart-icon:hover {
+  transform: translate(-20%, calc(-50% - 3px)) scale(1.03);
+}
+.block .number-of-likes {
+  font-size: 60px;
+  user-select: none;
+  position: absolute;
+  left: 81%;
+  top: 57%;
+  transform: translate(-80%, -50%);
+  color: #292d34;
+  user-select: none;
+}
+
+.jssecrets {
+  text-decoration: none !important;
+  padding: 16px;
+  background: #ffc805;
+  color: #000000;
+  font-size: 1em;
+  border-radius: 8px;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0px 4px 12px rgba(184, 144, 0, 0.1882352941), 0px 8px 24px rgba(184, 144, 0, 0.3764705882);
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  transition: all 0.3s;
+}
+.jssecrets:hover {
+  transform: translateY(-4px);
+}
+
+//Admin
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+
+.b-example-divider {
+  height: 3rem;
+  background-color: rgba(0, 0, 0, .1);
+  border: solid rgba(0, 0, 0, .15);
+  border-width: 1px 0;
+  box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+}
+
+.b-example-vr {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 100vh;
+}
+
+.bi {
+  vertical-align: -.125em;
+  fill: currentColor;
+}
+
+.nav-scroller {
+  position: relative;
+  z-index: 2;
+  height: 2.75rem;
+  overflow-y: hidden;
+}
+
+.nav-scroller .nav {
+  display: flex;
+  flex-wrap: nowrap;
+  padding-bottom: 1rem;
+  margin-top: -1px;
+  overflow-x: auto;
+  text-align: center;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.feather {
+  width: 16px;
+  height: 16px;
+}
+
+/*
+ * Sidebar
+ */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  /* rtl:raw:
+  right: 0;
+  */
+  bottom: 0;
+  /* rtl:remove */
+  left: 0;
+  z-index: 100; /* Behind the navbar */
+  padding: 48px 0 0; /* Height of navbar */
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+@media (max-width: 767.98px) {
+  .sidebar {
+    top: 5rem;
+  }
+}
+
+.sidebar-sticky {
+  height: calc(100vh - 48px);
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+.sidebar .nav-link {
+  font-weight: 500;
+  color: #333;
+}
+
+.sidebar .nav-link .feather {
+  margin-right: 4px;
+  color: #727272;
+}
+
+.sidebar .nav-link.active {
+  color: #2470dc;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+  color: inherit;
+}
+
+.sidebar-heading {
+  font-size: .75rem;
+}
+
+/*
+ * Navbar
+ */
+
+.navbar-brand {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  background-color: rgba(0, 0, 0, .25);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+}
+
+.navbar .navbar-toggler {
+  top: .25rem;
+  right: 1rem;
+}
+
+.navbar .form-control {
+  padding: .75rem 1rem;
+}
+
+.form-control-dark {
+  color: #fff;
+  background-color: rgba(255, 255, 255, .1);
+  border-color: rgba(255, 255, 255, .1);
+}
+
+.form-control-dark:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+//Administration
+.space-left{
+  margin-right: 11rem !important;
+  margin-top: 5rem;
+}
 
 

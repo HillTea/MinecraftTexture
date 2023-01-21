@@ -21,22 +21,25 @@ class UserType extends AbstractType
             ->add('Name', TextType::class, [
                 'attr' => ['class' => 'form-control mb-3'],
                 'required' => false,
-                'mapped' => false
+                'mapped' => true,
+                'disabled' => true
             ])
             ->add('surname', TextType::class, [
                 'attr' => ['class' => 'form-control mb-3'],
                 'required' => false,
-                'mapped' => false
+                'mapped' => true,
+                'disabled' => true
             ])
             ->add('age', IntegerType::class, [
                 'attr' => ['class' => 'form-control mb-3'],
                 'required' => false,
-                'mapped' => false
+                'mapped' => true,
+                'disabled' => true
             ])
             ->add('pseudo', TextType::class, [
                 'attr' => ['class' => 'form-control mb-3'],
                 'required' => false,
-                'mapped' => false
+                'disabled' => true
             ])
             ->add('pathImage', FileType::class, [
                 'attr' => ['class' => 'form-control mb-3'],
