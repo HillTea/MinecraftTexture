@@ -2,6 +2,7 @@
 
 namespace App\Controller\Back;
 
+use App\Entity\User;
 use App\Repository\ProductsRepository;
 use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -30,6 +31,21 @@ class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('/delete/{id}', name: 'app_admin_account_delete', methods: ['POST'])]
+    public function delete(Request $request, User $user, ProductsRepository $productsRepository): Response
+    {
+
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            $this->addFlash("success", "L'utilisateur vient d'être supprimé !");
+            $productsRepository->remove($user, true);
+
+            return $this->redirectToRoute('app_admin_users', [], Response::HTTP_SEE_OTHER);
+        }
+
+        $this->addFlash("error", "An error has occurred! Please contact an admin.");
+        return $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);
+    }
+
     #[Route('/admin/products', name: 'app_admin_products')]
     public function products(ProductsRepository $productsRepository, Request $request): Response
     {
@@ -50,7 +66,7 @@ class AdminController extends AbstractController
 
 
     #[Route('/admin/users', name: 'app_admin_users')]
-    public function users(UserRepository $usersRepository, Request $request): Response
+    public function users(UserRepository $usersRepository,ProductsRepository $productsRepository, Request $request): Response
     {
 
         $qb = $usersRepository->findAll();

@@ -24,6 +24,7 @@
                 <th scope="col">Pseudo</th>
                 <th scope="col">Avatar</th>
                 <th scope="col">Description</th>
+                <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -38,6 +39,7 @@
                     <td>{{ user.pseudo }}</td>
                     <td><a href="{{ user.pathImage }}"><img src="{{ user.pathImage }}" height="75" width="75"></a></td>
                     <td>{{ user.description }}</td>
+                    <td>{{ include('account/_delete_form.html.twig') }}</td>
                 </tr>
             {% endfor %}
 
@@ -47,8 +49,6 @@
             {{ knp_pagination_render(users) }}
         </div>
     </div>
-
-
 
 
     {% block footer %}

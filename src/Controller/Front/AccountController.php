@@ -99,11 +99,14 @@ class AccountController extends AbstractController
     #[Route('/{pseudo}/delete', name: 'app_account_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+
+        dd($request);
+        if ($this->isCsrfTokenValid('delete'.$user->getPseudo(), $request->request->get('_token'))) {
             $userRepository->remove($user, true);
+            return $this->redirectToRoute('app_admin_users', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->redirectToRoute('app_account', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{pseudo}/add/ressource', name: 'app_account_ressources', methods: ['GET', 'POST'])]
